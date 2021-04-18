@@ -3,7 +3,7 @@ import boto3
 from boto3.dynamodb.conditions import Key
 
 
-def query_and_project_products(id,createdDate, dynamodb=None):
+def query_and_project_products(yearManufactured, dynamodb=None):
     if not dynamodb:
         dynamodb = boto3.resource('dynamodb', endpoint_url="http://localhost:8000")
 
@@ -14,19 +14,15 @@ def query_and_project_products(id,createdDate, dynamodb=None):
     response = table.query(
         ProjectionExpression="id, title, description, category",
         
-        #ExpressionAttributeNames={"#nm": "name"},
-        KeyConditionExpression= Key('createdDate').eq(createdDate[0]),
-             ScanIndexForward=True,
+       
+        KeyConditionExpression= Key('yearManufactured').eq(yearManufactured)
+            
     )
     return response['Items']
 
 
 if __name__ == '__main__':
-    query_id = 3
-    
-    query_range = ('2021-04-16T12:22:41+00:00', '2021-04-14T12:39:34+00:00')
-  
-    products = query_and_project_products(query_id, query_range)
+    yearManufactured = 2001
+    products = query_and_project_products(yearManufactured)
     for product in products:
-        print(f"\n{product['id']} : {product['title']}")
-        pprint(product['description'])
+        pprint(product)

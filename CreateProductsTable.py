@@ -9,7 +9,7 @@ def create_products_table(dynamodb=None):
         TableName='products',
         KeySchema=[
             {
-                'AttributeName': 'id',
+                'AttributeName': 'yearManufactured',
                 'KeyType': 'HASH'  # Partition key
             },
             {
@@ -19,7 +19,7 @@ def create_products_table(dynamodb=None):
         ],
         AttributeDefinitions=[
             {
-                'AttributeName': 'id',
+                'AttributeName': 'yearManufactured',
                 'AttributeType': 'N'
             },
             {
